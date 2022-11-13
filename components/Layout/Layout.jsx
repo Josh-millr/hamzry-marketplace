@@ -9,7 +9,7 @@ export const Layout = ({ topNav: TopNav, footer: Footer, children }) => (
     </Head>
     <main>
       <TopNav />
-      {children}
+      <div className="mx-auto w-full max-w-screen-desktop">{children}</div>
     </main>
     <Footer />
   </>
