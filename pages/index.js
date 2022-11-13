@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Button from '@components/Button'
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
 
       <main className="">
         <p className="text-3xl">Landing Page</p>
-        <Button />
       </main>
     </div>
   );
