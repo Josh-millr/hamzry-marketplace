@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div className="">
-      <p>
+      <p className="font-body">
         @next/font includes built-in automatic self-hosting for any font file.
         This means you can optimally load web fonts with zero layout shift,
         thanks to the underlying CSS size-adjust property used. This new font
