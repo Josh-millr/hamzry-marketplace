@@ -1,7 +1,12 @@
-import '@styles/globals.css'
+import "@styles/globals.css";
+import { Layout, TopNav, Footer } from "@components/index";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Layout topNav={TopNav} footer={Footer}>
+      <Component {...pageProps} />
+    </Layout>
+  );
 }
 
-export default MyApp
+export default MyApp;
