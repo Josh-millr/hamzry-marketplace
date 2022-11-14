@@ -1,4 +1,6 @@
 import { Input, Button } from "@components/index";
+
+
 export default function SignUp() {
   return (
     <div className="grid w-full grid-cols-1 grid-rows-1 desktop:grid-cols-2">
@@ -39,7 +41,9 @@ export default function SignUp() {
       </div>
 
       {/* Feature Section */}
-      <div className="h-[100vh] bg-primary-700"></div>
+      <div className="h-[100vh] bg-primary-700">
+        
+      </div>
     </div>
   );
 }
