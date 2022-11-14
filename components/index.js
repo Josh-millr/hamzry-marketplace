@@ -4,3 +4,4 @@ export { TopNav } from "@components/TopNav/TopNav";
 
 // Atom components
 export { Button } from "@components/UI/Button/Button";
+export { Input } from "@components/UI/Input/Input";

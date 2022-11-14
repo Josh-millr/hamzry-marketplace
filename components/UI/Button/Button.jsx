@@ -9,7 +9,7 @@ export const Button = ({
   state,
 }) => {
   const style = {
-    base: "flex place-content-center gap-2 text-sm font-button font-semibold rounded-lg ",
+    base: "flex place-content-center gap-2 text-sm font-button font-semibold rounded-lg tablet:w-auto",
     size: {
       lg: "px-4 py-2",
       md: "",
