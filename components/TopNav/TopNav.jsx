@@ -8,7 +8,9 @@ export const TopNav = () => (
         <Image src="/logo-full.png" height={40} width={132} alt="hamzry logo" />
         <div className="hidden items-center gap-x-6 tablet:flex">
           <p className="text-label-3">Already have an account?</p>
-          <Button type="secondary" size="lg">Sign in</Button>
+          <Button.Default type="secondary" size="lg">
+            Sign in
+          </Button.Default>
         </div>
       </div>
     </div>

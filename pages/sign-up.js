@@ -1,11 +1,46 @@
 import React, { useState } from "react";
 import { Input, Button } from "@components/index";
 
-export default function SignUp() {
+const EmailForm = () => {
   const [email, setEmail] = useState(null);
 
   const getEmailValue = (value) => setEmail(value);
 
+  return (
+    <form
+      className="grid w-full max-w-sm grid-cols-1 grid-rows-1 gap-y-4"
+      onSubmit={(e) => e.preventDefault()}
+    >
+      {/* Email Input section */}
+      <div className="grid grid-cols-1 grid-rows-1 gap-y-4">
+        {/* Email Input */}
+        <div className="grid grid-cols-1 grid-rows-1 gap-y-2">
+          <label
+            htmlFor="email"
+            className="whitespace-nowrap font-body text-label-3 font-medium text-neutral-900"
+          >
+            Email Address
+          </label>
+          <Input.Email required={true} getValue={getEmailValue} />
+        </div>
+        {/* Continue Button */}
+        <Button.Default size="lg" type="primary">
+          Continue
+        </Button.Default>
+      </div>
+      {/* Divider */}
+      <div className="flex w-full place-items-center gap-x-4">
+        <span className="h-[1px] w-full bg-neutral-200" />
+        <p className="font-body text-label-4 text-neutral-400">OR</p>
+        <span className="h-[1px] w-full bg-neutral-200" />
+      </div>
+      {/* Signup with Google button */}
+      <Button.WithGoogle>Continue with Google</Button.WithGoogle>
+    </form>
+  );
+};
+
+export default function SignUp() {
   return (
     <div className="w-full px-6 pt-16">
       {/* Form Section */}
@@ -19,46 +54,10 @@ export default function SignUp() {
             Get Started Now
           </p>
         </div>
+
         {/* Email Form Below */}
+        <EmailForm />
       </div>
     </div>
   );
-}
-
-{
-  /* <div className="mx-auto grid h-[100vh] w-full grid-cols-1 grid-rows-1">
-{/* Form Section */
-}
-{
-  /* <div className="grid grid-cols-1 grid-rows-1 place-items-center gap-y-10 max-w-[352px] ">
-  <div className="pt-14">
-
-  </div>
-  <form
-    className="grid w-full grid-cols-1 grid-rows-1 gap-y-2"
-    onSubmit={(e) => e.preventDefault()}
-  >
-    <div className="grid grow grid-cols-1 grid-rows-1">
-      <label
-        htmlFor="email"
-        className="mb-2 block whitespace-nowrap text-label-4 font-medium text-neutral-800"
-      >
-        Email Address
-      </label>
-      <Input.Email
-        required={true}
-        // getValue={getValue}
-      />
-    </div>
-    <Button size="lg" type="primary">
-      Continue
-    </Button>
-    <div className="flex w-full justify-center gap-x-8">
-      <span className="h-[1px] w-full bg-neutral-300" />
-      <p className="text-label-4 text-neutral-300">OR</p>
-      <span className="h-[1px] w-full bg-neutral-300" />
-    </div>
-  </form>
-</div>
-</div> */
 }
