@@ -1,45 +1,53 @@
-// todo: Add more customization to the button component
-
 export const Button = ({
   size,
   type,
-  iconRight,
-  iconLeft,
+  iconRight: IconRight,
+  iconLeft: IconLeft,
   children,
   state,
 }) => {
+  // "tablet:w-auto"
   const style = {
-    base: "flex place-content-center gap-2 text-sm font-button font-semibold rounded-lg tablet:w-auto",
+    general: "flex place-content-center rounded-lg text-button w-auto",
     size: {
-      lg: "px-4 py-2",
-      md: "",
-      sm: "",
+      lg: "px-4 py-2 font-semibold",
     },
     type: {
-      primary: "bg-primary-500 text-white",
-      secondary: "border-2 border-primary-500 text-primary-500",
-      tertiary: "bg-primary-max-00 text-primary-600",
+      primary:
+        "text-white bg-primary-500 hover:bg-primary-700 focus:ring-4 focus:ring-primary-400 focus:outline-none",
+      secondary:
+        "text-primary-600 border-2 border-primary-600 hover:bg-primary-max-00 focus:outline-none",
+      tertiary:
+        "bg-primary-50 text-primary-900 hover:bg-primary-200 focus:outline-none",
     },
     state: {
-      error: "",
-      warning: "",
-      loading: "",
-      disabled: "",
+      error:
+        "focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900",
+      warning:
+        "focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900",
+      disabled:
+        "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium text-sm px-5 py-2.5 text-center",
     },
   };
+
+  const iconSize = {
+    lg: 24,
+    md: 20,
+    sm: 20,
+  };
+  
   return (
     <button
       type="button"
-      className={` ${style["base"]}
+      className={` ${style["general"]}
         ${style["size"][size] !== undefined ? style["size"][size] : ""}
         ${style["type"][type] !== undefined ? style["type"][type] : ""}
         ${style["state"][state] !== undefined ? style["state"][state] : ""}
       `}
     >
-      {iconLeft}
+      {IconLeft !== undefined && <IconLeft size={iconSize[size]} />}
       {children}
-      {iconRight}
+      {IconRight !== undefined && <IconLeft size={iconSize[size]} />}
     </button>
   );
 };
-// hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none

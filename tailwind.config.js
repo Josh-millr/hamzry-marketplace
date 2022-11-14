@@ -11,8 +11,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ["var(--font-DmSans)", ...fontFamily.sans],
-        body: ["var(--font-inter)", ...fontFamily.sans],
+        heading: ['DM Sans', "var(--font-DmSans)", ...fontFamily.sans],
+        body: ["Inter", "var(--font-inter)", ...fontFamily.sans],
       },
     },
     screens: {
