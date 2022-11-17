@@ -1,29 +1,96 @@
 import React, { useState, useEffect } from "react";
 import { EmailForm, GeneralSignupForm } from "@components/index";
+import axios from "axios";
 
 export default function SignUp() {
-  const [step, setStep] = useState(1);
-  const [email, setEmail] = useState(null);
-  const [gender, setGender] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [userName, setUserName] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [firstName, setFirstName] = useState(null);
-  const [accountType, setAccountType] = useState(null);
+  // Step 1 state
+  const [step, setStep] = useState(0);
+  const [email, setEmail] = useState("");
+  const [isEmailFormatValid, setIsEmailFormatValid] = useState(null);
+  
+  const stepHandler = {
+    nextStep: 1,
+    goNextStep() {
+      setStep(this.nextStep);
+    },
+  };
 
-  const prevStep = step;
-  const nextStep = step + 1;
+  const emailHandler = {
+    processEmail() {
+      // check if email is in a valid format
+      const isEmailValid = this.checkEmailFomat();
+      if (isEmailValid === false) setIsEmailFormatValid(true);
 
-  // useEffect(() => {
-  //   if (prevStep !== nextStep) {
-  //     setTimeout(() => setStep(nextStep), 4000);
-  //   }
-  // }, [nextStep, prevStep]);
+      // check if email is already present on server
+      const isEmailPresent = this.checkEmailRecord();
+      if (isEmailPresent) this.submitEmail();
+    },
+    getEmailValue(value) {
+      console.log(value);
+      setEmail(value);
+    },
+    checkEmailFomat() {
+      // email regEx pattern
+      const emailRegExPattern = new RegExp(
+        "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+      );
+
+      if (emailRegExPattern.test(email)) return true;
+
+      return false;
+    },
+    checkEmailRecord() {
+      const response = true;
+      return response;
+
+      // Send the email to the server endpoint
+      // axios
+      //   .post("/", {
+      //     email: email,
+      //   })
+      //   .then((response) => {
+      // get a respose
+      // response = response.data;
+      // console.log(response.data);
+
+      // return the boolean of the response
+      // const isResponse = response === true ? true : false
+      //     return true;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error, "No network");
+      //   });
+    },
+    submitEmail() {
+      // Send the email to the server endpoint
+      // axios
+      //   .post("/", {
+      //     email: email,
+      //   })
+      //   .then(function (response) {
+      //      get a respose
+      //     console.log(response.data);
+
+      //      move to the next step
+      //     setStep(stepHandler.goNextStep());
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+      console.log("Email Submitted");
+      stepHandler.goNextStep();
+    },
+  };
 
   const components = [
-    <EmailForm key={prevStep} />,
-    <GeneralSignupForm key={prevStep} />,
+    <EmailForm
+      key={0}
+      value={email}
+      emailValidated={isEmailFormatValid}
+      getInputValue={(value) => emailHandler.getEmailValue(value)}
+      submitAction={() => emailHandler.processEmail()}
+    />,
+    <GeneralSignupForm key={1} />,
   ];
 
   return (
@@ -39,14 +106,22 @@ export default function SignUp() {
             Get Started Now
           </p>
         </div>
-        {/* Mount steps */}
-        {/* // todo: Add a transition to control the vistual display of the components at each step */}
+        {/* Mount steps - Add a transition to control the vistual display of the components at each step */}
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
-          {components[step]}
+          {step === stepHandler.nextStep
+            ? components[stepHandler.nextStep]
+            : components[step]}
         </div>
       </div>
     </div>
   );
 }
 
-// {/* {prevStep === nextStep ? components[nextStep] : components[prevStep]} */}
+// Step 2 state
+// const [gender, setGender] = useState(null);
+// const [location, setLocation] = useState(null);
+// const [userName, setUserName] = useState(null);
+// const [password, setPassword] = useState(null);
+// const [lastName, setLastName] = useState(null);
+// const [firstName, setFirstName] = useState(null);
+// const [accountType, setAccountType] = useState(null);

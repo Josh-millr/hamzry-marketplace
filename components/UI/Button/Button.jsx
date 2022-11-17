@@ -38,7 +38,7 @@ const Default = ({
 
   return (
     <button
-      type="button"
+      type="submit"
       className={` ${style["general"]}
         ${style["size"][size] !== undefined ? style["size"][size] : ""}
         ${style["type"][type] !== undefined ? style["type"][type] : ""}
@@ -54,7 +54,7 @@ const Default = ({
 const WithGoogle = ({ children }) => {
   return (
     <button
-      type="button"
+      type="submit"
       className="flex w-full place-items-center justify-center gap-x-4 rounded-lg border border-neutral-200 py-2 text-neutral-900"
     >
       <svg

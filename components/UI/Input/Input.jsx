@@ -1,4 +1,4 @@
-const Email = ({ required, getValue }) => {
+const Email = ({ required, getValue, value }) => {
   return (
     <input
       type="email"
@@ -6,7 +6,8 @@ const Email = ({ required, getValue }) => {
       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500"
       placeholder="dele@gmail.com"
       required={required && false}
-      onChange={(e) => console.log(e)}
+      value={value}
+      onChange={(e) => getValue(e.target.value)}
     />
   );
 };
@@ -18,7 +19,7 @@ const Text = ({ required, getValue, placeholder }) => {
       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500"
       placeholder={placeholder}
       required={required && false}
-      onChange={(e) => console.log(e)}
+      onChange={(e) => getValue(e.target.value)}
     />
   );
 };
@@ -30,7 +31,7 @@ const Password = ({ required, getValue }) => {
       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500"
       placeholder="password"
       required={required && false}
-      onChange={(e) => console.log(e)}
+      onChange={(e) => getValue(e.target.value)}
     />
   );
 };
