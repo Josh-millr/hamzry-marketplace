@@ -6,8 +6,18 @@ export default function SignUp() {
   // Step 1 state
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState("");
-  const [isEmailFormatValid, setIsEmailFormatValid] = useState(null);
-  
+  const [isEmailFormatValid, setIsEmailFormatValid] = useState("");
+  const [isEmailTaken, setIsEmailTaken] = useState(null);
+
+  // Step 2 state
+  const [gender, setGender] = useState("");
+  const [location, setLocation] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [accountType, setAccountType] = useState("");
+
   const stepHandler = {
     nextStep: 1,
     goNextStep() {
@@ -23,7 +33,11 @@ export default function SignUp() {
 
       // check if email is already present on server
       const isEmailPresent = this.checkEmailRecord();
-      if (isEmailPresent) this.submitEmail();
+      if (isEmailPresent === false) {
+        stepHandler.goNextStep();
+      } else {
+        setIsEmailTaken(true);
+      }
     },
     getEmailValue(value) {
       console.log(value);
@@ -40,45 +54,26 @@ export default function SignUp() {
       return false;
     },
     checkEmailRecord() {
-      const response = true;
-      return response;
+      const response = false;
+      // return response;
 
-      // Send the email to the server endpoint
-      // axios
-      //   .post("/", {
-      //     email: email,
-      //   })
-      //   .then((response) => {
-      // get a respose
-      // response = response.data;
-      // console.log(response.data);
+      // Send the email to the server endpoint axios
+      axios
+        .post("http://localhost:3001/users/checkemail", {
+          email: email,
+        })
+        .then((response) => {
+          // get a respose
+          // response = response.data;
+          console.log(response);
 
-      // return the boolean of the response
-      // const isResponse = response === true ? true : false
-      //     return true;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error, "No network");
-      //   });
-    },
-    submitEmail() {
-      // Send the email to the server endpoint
-      // axios
-      //   .post("/", {
-      //     email: email,
-      //   })
-      //   .then(function (response) {
-      //      get a respose
-      //     console.log(response.data);
-
-      //      move to the next step
-      //     setStep(stepHandler.goNextStep());
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
-      console.log("Email Submitted");
-      stepHandler.goNextStep();
+          // return the boolean of the response
+          // const isResponse = response === true ? true : false;
+          // return true;
+        })
+        .catch((error) => {
+          console.log(error, "No network");
+        });
     },
   };
 
@@ -86,11 +81,19 @@ export default function SignUp() {
     <EmailForm
       key={0}
       value={email}
-      emailValidated={isEmailFormatValid}
+      emailValid={isEmailFormatValid}
+      emailTaken={isEmailTaken}
       getInputValue={(value) => emailHandler.getEmailValue(value)}
       submitAction={() => emailHandler.processEmail()}
     />,
-    <GeneralSignupForm key={1} />,
+    <GeneralSignupForm
+      key={1}
+      setAccountType={(value) => setAccountType(value)}
+      accountType={accountType}
+      // firstname
+      getFirstname={setFirstName}
+      setFirstname={firstName}
+    />,
   ];
 
   return (
@@ -116,12 +119,3 @@ export default function SignUp() {
     </div>
   );
 }
-
-// Step 2 state
-// const [gender, setGender] = useState(null);
-// const [location, setLocation] = useState(null);
-// const [userName, setUserName] = useState(null);
-// const [password, setPassword] = useState(null);
-// const [lastName, setLastName] = useState(null);
-// const [firstName, setFirstName] = useState(null);
-// const [accountType, setAccountType] = useState(null);

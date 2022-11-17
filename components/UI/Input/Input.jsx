@@ -11,11 +11,12 @@ const Email = ({ required, getValue, value }) => {
     />
   );
 };
-const Text = ({ required, getValue, placeholder }) => {
+const Text = ({ required, getValue, placeholder, indexFor, value }) => {
   return (
     <input
       type="text"
-      id="text"
+      id={indexFor}
+      value={value}
       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500"
       placeholder={placeholder}
       required={required && false}

@@ -1,6 +1,12 @@
 import { Input, Button } from "@components/index";
 
-export const EmailForm = ({ getInputValue, value, submitAction, emailValidated }) => {
+export const EmailForm = ({
+  getInputValue,
+  value,
+  submitAction,
+  emailTaken,
+  emailValid,
+}) => {
   return (
     <form
       className="grid w-full max-w-sm grid-cols-1 grid-rows-1 gap-y-4"
@@ -20,6 +26,16 @@ export const EmailForm = ({ getInputValue, value, submitAction, emailValidated }
             Email Address
           </label>
           <Input.Email required={true} getValue={getInputValue} value={value} />
+          {emailTaken === true && (
+            <p className="font-body text-label-4 font-normal text-neutral-900">
+              This email address is already taken, try another email address
+            </p>
+          )}
+          {/* {emailValid === false && (
+            <p className="font-body text-label-4 font-normal text-neutral-900">
+              This email address is already taken, try another email address
+            </p>
+          )} */}
         </div>
         {/* Continue Button */}
         <Button.Default size="lg" type="primary">
