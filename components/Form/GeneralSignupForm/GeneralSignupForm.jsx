@@ -1,8 +1,9 @@
-import { Input } from "@components/index";
+import { Input, Button } from "@components/index";
 
 export const GeneralSignupForm = ({ getInput }) => {
+  // max-w-sm
   return (
-    <form className="grid w-full max-w-sm grid-cols-1 grid-rows-1 gap-y-6 text-neutral-800">
+    <form className="grid w-full grid-cols-1 grid-rows-1 gap-y-6 text-neutral-800 max-w-3xl tablet:px-20 mb-28">
       <div className="grid grid-cols-1 grid-rows-1 gap-y-2">
         <p className="font-body text-label-3 font-medium">Account</p>
         <div className="flex gap-x-4">
@@ -42,6 +43,15 @@ export const GeneralSignupForm = ({ getInput }) => {
           <label className="font-body text-label-3 font-medium">Password</label>
           <Input.Text />
         </div>
+      </div>
+      {/* Continue Button */}
+      <div className="flex gap-x-4">
+        <button className="h-fit w-full whitespace-nowrap rounded-lg border border-neutral-300 py-2 font-body text-label-3 font-medium">
+          Continue as a freelancer
+        </button>
+        <Button.Default size="lg" type="primary">
+          Sign up
+        </Button.Default>
       </div>
     </form>
   );

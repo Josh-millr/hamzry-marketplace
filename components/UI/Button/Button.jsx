@@ -8,7 +8,7 @@ const Default = ({
 }) => {
   // "tablet:w-auto"
   const style = {
-    general: "flex place-content-center rounded-lg text-button w-auto",
+    general: "flex place-content-center rounded-lg text-button w-full",
     size: {
       lg: "px-4 py-2 font-semibold",
     },
@@ -81,7 +81,7 @@ const WithGoogle = ({ children }) => {
           fill="#1976D2"
         />
       </svg>
-      <span className="font-body text-button font-semibold">{children}</span>
+      <span className="font-body text-button font-semibold whitespace-nowrap">{children}</span>
     </button>
   );
 };
