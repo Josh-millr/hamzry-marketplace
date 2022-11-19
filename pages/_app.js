@@ -18,7 +18,6 @@ function MyApp({ Component, pageProps }) {
     <>
       <main className={`${inter.variable} ${DmSans.variable}`}>
         <TopNav />
-        {/* App Root */}
         <div className="mx-auto w-full max-w-screen-desktop">
           <Component {...pageProps} />
         </div>

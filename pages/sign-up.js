@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { EmailForm, GeneralSignupForm } from "@components/index";
 import axios from "axios";
+
+import { EmailForm, GeneralSignupForm } from "@components/index";
 
 export default function SignUp() {
   // Step 1 state

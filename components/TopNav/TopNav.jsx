@@ -7,10 +7,15 @@ export const TopNav = () => (
       <div className="m-auto flex w-full max-w-screen-desktop justify-center  py-4 px-6 tablet:justify-between tablet:px-20">
         <Image src="/logo-full.png" height={40} width={132} alt="hamzry logo" />
         <div className="hidden items-center gap-x-6 tablet:flex">
-          <p className="text-label-3 whitespace-nowrap">Already have an account?</p>
-          <Button.Default type="secondary" size="lg">
-            Sign in
-          </Button.Default>
+          <p className="whitespace-nowrap text-label-3">
+            Already have an account?
+          </p>
+          <Button
+            Size="lg"
+            Appearance="primary"
+            Type="button"
+            Label="Sign in"
+          />
         </div>
       </div>
     </div>
