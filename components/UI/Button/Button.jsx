@@ -1,8 +1,9 @@
 export const Button = (props) => {
-  const { Size, Appearance, Type, Label, Action, Disabled, IconRight, IconLeft } = props;
+  const { Size, Appearance, Type, Label, Action, Disabled, IconRight, IconLeft, overideStyle } = props;
 
   const style = {
-    base: "flex rounded-lg gap-x-2 font-semibold text-button font-body place-items-center",
+    base: `flex rounded-lg gap-x-2 font-semibold text-button font-body place-items-center justify-center
+    ${typeof overideStyle === "string" ? overideStyle : "w-full tablet:w-fit"}`,
     size: {
       sm: "",
       md: "",

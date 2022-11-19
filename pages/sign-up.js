@@ -30,7 +30,7 @@ export default function SignUp() {
     processEmail() {
       // check if email is in a valid format
       const isEmailValid = this.checkEmailFomat();
-      if (isEmailValid === false) setIsEmailFormatValid(true);
+      if (isEmailValid === false) setIsEmailFormatValid(false);
 
       // check if email is already present on server
       const isEmailPresent = this.checkEmailRecord();
@@ -41,7 +41,10 @@ export default function SignUp() {
       }
     },
     getEmailValue(value) {
-      console.log(value);
+      // Reset states to default
+      if (isEmailFormatValid === false) setIsEmailFormatValid(null);
+      if (isEmailTaken === true) setIsEmailTaken(null);
+
       setEmail(value);
     },
     checkEmailFomat() {
@@ -55,8 +58,8 @@ export default function SignUp() {
       return false;
     },
     checkEmailRecord() {
-      const response = false;
-      // return response;
+      const response = true;
+      return response;
 
       // Send the email to the server endpoint axios
       axios
@@ -84,8 +87,8 @@ export default function SignUp() {
       value={email}
       emailValid={isEmailFormatValid}
       emailTaken={isEmailTaken}
-      getInputValue={(value) => emailHandler.getEmailValue(value)}
       submitAction={() => emailHandler.processEmail()}
+      getInputValue={(value) => emailHandler.getEmailValue(value)}
     />,
     <GeneralSignupForm
       key={1}

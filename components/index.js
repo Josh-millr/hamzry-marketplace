@@ -9,3 +9,10 @@ export { Button } from "@components/UI/Button/Button";
 export { Input } from "@components/UI/Input/Input";
 
 // Icons components
+export {
+  RiCheckboxCircleFill,
+  RiErrorWarningFill,
+  RiInformationFill,
+  RiSpam2Fill,
+  RiArrowRightLine,
+} from "react-icons/ri";
