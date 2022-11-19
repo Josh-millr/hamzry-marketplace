@@ -7,8 +7,8 @@ export default function SignUp() {
   // Step 1 state
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState("");
-  const [isEmailFormatValid, setIsEmailFormatValid] = useState("");
   const [isEmailTaken, setIsEmailTaken] = useState(null);
+  const [isEmailFormatValid, setIsEmailFormatValid] = useState(null);
 
   // Step 2 state
   const [gender, setGender] = useState("");
@@ -28,17 +28,15 @@ export default function SignUp() {
 
   const emailHandler = {
     processEmail() {
-      // check if email is in a valid format
+      // Check if email is in a valid format
       const isEmailValid = this.checkEmailFomat();
-      if (isEmailValid === false) setIsEmailFormatValid(false);
+      if (isEmailValid === false) return setIsEmailFormatValid(false);
 
-      // check if email is already present on server
+      // Check if email is already present on server
       const isEmailPresent = this.checkEmailRecord();
-      if (isEmailPresent === false) {
-        stepHandler.goNextStep();
-      } else {
-        setIsEmailTaken(true);
-      }
+      if (isEmailPresent) return setIsEmailTaken(true);
+
+      stepHandler.goNextStep();
     },
     getEmailValue(value) {
       // Reset states to default

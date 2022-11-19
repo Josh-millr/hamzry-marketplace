@@ -21,7 +21,6 @@ export const EmailForm = ({
   };
 
   let helperText =
-    (emailValid === null && helperTexts.default) ||
     (emailValid === false && helperTexts.formatIncorrect) ||
     (emailTaken === true && helperTexts.emailTaken);
 
@@ -36,9 +35,9 @@ export const EmailForm = ({
         required={true}
         Status="success"
         Label="Email Address"
+        HelperText={helperText}
         Placeholder="email@gmail.com"
         getValue={(value) => getInputValue(value)}
-        HelperText={emailValid !== null || (emailTaken !== null && helperText)}
       />
 
       {/* Button used to continue to the next step */}
