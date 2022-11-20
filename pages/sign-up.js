@@ -10,7 +10,7 @@ export default function SignUp() {
   // Step 1 state
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState("");
-  const [isEmailTaken, setIsEmailTaken] = useState(false);
+  const [isEmailTaken, setIsEmailTaken] = useState(null);
   const [isEmailFormatValid, setIsEmailFormatValid] = useState(null);
 
   const generalState = useSelector((state) => state.general);
@@ -30,11 +30,12 @@ export default function SignUp() {
       if (isEmailValid === false) return setIsEmailFormatValid(false);
 
       // Check if email is already present on server
-      this.checkEmailRecord().then((response) => {
+      this.checkEmailRecord().then((isEmailTaken) => {
         dispatch(stopLoading());
-        if (response === false) return setIsEmailTaken(true);
-        if (isEmailTaken === false && response === false)
-          stepHandler.goNextStep();
+        console.log("server responded with:", isEmailTaken)
+        if (isEmailTaken === true) return setIsEmailTaken(isEmailTaken);
+        if (isEmailTaken === false) stepHandler.goNextStep();
+        // Do something if network is unavailableb
       });
     },
     getEmailValue(value) {
@@ -64,6 +65,7 @@ export default function SignUp() {
         );
         return response.data.status;
       } catch (e) {
+        // Return a null value to use in notifying the use of network unavailability
         return "No network";
       }
     },
