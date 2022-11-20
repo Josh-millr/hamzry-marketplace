@@ -7,6 +7,7 @@ export { GeneralSignupForm } from "@components/Form/GeneralSignupForm/GeneralSig
 // Atom components
 export { Button } from "@components/UI/Button/Button";
 export { Input } from "@components/UI/Input/Input";
+export { Loader } from "@components/UI/Loader/Loader";
 
 // Icons components
 export {
