@@ -33,7 +33,8 @@ export default function SignUp() {
       this.checkEmailRecord().then((response) => {
         dispatch(stopLoading());
         if (response === false) return setIsEmailTaken(true);
-        if (isEmailTaken === false) stepHandler.goNextStep();
+        if (isEmailTaken === false && response === false)
+          stepHandler.goNextStep();
       });
     },
     getEmailValue(value) {

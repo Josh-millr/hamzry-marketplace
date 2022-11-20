@@ -63,7 +63,7 @@ const Text = (props) => {
           type={typeof Type !== "string" ? "text" : Type}
           onChange={(e) => inputHandler(e)}
           placeholder={Placeholder}
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500"
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500 disabled:bg-white disabled:text-neutral-200 disabled:border-neutral-200"
         />
         {IconRight !== undefined && <IconRight size={24} />}
       </div>
