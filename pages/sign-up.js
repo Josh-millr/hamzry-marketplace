@@ -72,8 +72,9 @@ export default function SignUp() {
     <EmailForm
       key={0}
       value={email}
-      emailValid={isEmailFormatValid}
       emailTaken={isEmailTaken}
+      status={generalState.loading}
+      emailValid={isEmailFormatValid}
       submitAction={() => emailHandler.processEmail()}
       getInputValue={(value) => emailHandler.getEmailValue(value)}
     />,

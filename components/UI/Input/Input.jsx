@@ -33,6 +33,7 @@ const Text = (props) => {
     IconRight,
     IconLeft,
     State,
+    disabled,
     required,
     value,
     getValue,
@@ -57,6 +58,7 @@ const Text = (props) => {
           id={For}
           name={For}
           value={value}
+          disabled={disabled}
           required={required}
           type={typeof Type !== "string" ? "text" : Type}
           onChange={(e) => inputHandler(e)}

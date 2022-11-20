@@ -11,5 +11,5 @@ export const Loader = () => {
     if (isLoading === false) ref.current.complete();
   }, [isLoading]);
 
-  return <LoadingBar color="#009879" ref={ref} />;
+  return <LoadingBar color="#57BBA7" ref={ref} height={4}/>;
 };

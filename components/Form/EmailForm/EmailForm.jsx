@@ -1,11 +1,12 @@
 import { Input, Button, RiArrowRightLine } from "@components/index";
 
 export const EmailForm = ({
-  getInputValue,
   value,
-  submitAction,
+  status,
   emailTaken,
   emailValid,
+  submitAction,
+  getInputValue,
 }) => {
   const submitForm = (e) => {
     e.preventDefault();
@@ -34,6 +35,7 @@ export const EmailForm = ({
         value={value}
         required={true}
         Status="success"
+        disabled={status}
         Label="Email Address"
         HelperText={helperText}
         Placeholder="email@gmail.com"
