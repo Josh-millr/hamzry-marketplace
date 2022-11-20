@@ -23,7 +23,7 @@ export default function SignUp() {
 
   const [accountType, setAccountType] = useState("");
 
-  // console.log("The gender value is:", gender)
+  console.log("The username value is:", userName);
 
   const generalState = useSelector((state) => state.general);
   const dispatch = useDispatch();
@@ -104,7 +104,15 @@ export default function SignUp() {
       getLastName={setLastName}
       setLastName={lastName}
       // Gender
-      getGender={(value) => setGender(value)}
+      getGender={setGender}
+      // Username
+      getUserName={setUserName}
+      setUserName={userName}
+      // Location
+      setLocation={location}
+      // Password
+      getPassword={setPassword}
+      setPassword={password}
     />,
   ];
 
