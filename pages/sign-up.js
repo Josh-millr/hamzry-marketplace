@@ -13,6 +13,18 @@ export default function SignUp() {
   const [isEmailTaken, setIsEmailTaken] = useState(null);
   const [isEmailFormatValid, setIsEmailFormatValid] = useState(null);
 
+  // Step 2 state
+  const [gender, setGender] = useState("");
+  const [location, setLocation] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+
+  const [accountType, setAccountType] = useState("");
+
+  // console.log("The gender value is:", gender)
+
   const generalState = useSelector((state) => state.general);
   const dispatch = useDispatch();
 
@@ -32,10 +44,10 @@ export default function SignUp() {
       // Check if email is already present on server
       this.checkEmailRecord().then((isEmailTaken) => {
         dispatch(stopLoading());
-        console.log("server responded with:", isEmailTaken)
+        console.log("server responded with:", isEmailTaken);
         if (isEmailTaken === true) return setIsEmailTaken(isEmailTaken);
         if (isEmailTaken === false) stepHandler.goNextStep();
-        // Do something if network is unavailableb
+        // Do something if network is unavailable
       });
     },
     getEmailValue(value) {
@@ -81,14 +93,19 @@ export default function SignUp() {
       submitAction={() => emailHandler.processEmail()}
       getInputValue={(value) => emailHandler.getEmailValue(value)}
     />,
-    // <GeneralSignupForm
-    //   key={1}
-    //   setAccountType={(value) => setAccountType(value)}
-    //   accountType={accountType}
-    // firstname
-    //   getFirstname={setFirstName}
-    //   setFirstname={firstName}
-    // />,
+    <GeneralSignupForm
+      key={1}
+      setAccountType={(value) => setAccountType(value)}
+      accountType={accountType}
+      // Firstname
+      getFirstName={setFirstName}
+      setFirstName={firstName}
+      // Lastname
+      getLastName={setLastName}
+      setLastName={lastName}
+      // Gender
+      getGender={(value) => setGender(value)}
+    />,
   ];
 
   return (
@@ -108,18 +125,9 @@ export default function SignUp() {
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
           {step === stepHandler.nextStep
             ? components[stepHandler.nextStep]
-            : components[step]}
+            : components[stepHandler.nextStep]}
         </div>
       </div>
     </div>
   );
 }
-
-// Step 2 state
-// const [gender, setGender] = useState("");
-// const [location, setLocation] = useState("");
-// const [userName, setUserName] = useState("");
-// const [password, setPassword] = useState("");
-// const [lastName, setLastName] = useState("");
-// const [firstName, setFirstName] = useState("");
-// const [accountType, setAccountType] = useState("");

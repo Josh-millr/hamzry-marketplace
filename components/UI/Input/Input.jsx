@@ -58,7 +58,7 @@ const Text = (props) => {
           id={For}
           name={For}
           value={value}
-          disabled={disabled}
+          disabled={typeof disabled !== "boolean" && false}
           required={required}
           type={typeof Type !== "string" ? "text" : Type}
           onChange={(e) => inputHandler(e)}
