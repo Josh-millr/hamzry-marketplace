@@ -52,8 +52,10 @@ const Text = (props) => {
       >
         {typeof Label === "string" && Label.length > 2 ? Label : "Label"}
       </label>
-      <div className="flex w-full place-items-center gap-x-2">
-        {IconLeft !== undefined && <IconLeft size={24} />}
+      <div className="relative flex w-full place-items-center gap-x-2">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          {IconLeft !== undefined && <IconLeft size={20} />}
+        </div>
         <input
           id={For}
           name={For}
@@ -63,9 +65,12 @@ const Text = (props) => {
           type={typeof Type !== "string" ? "text" : Type}
           onChange={(e) => inputHandler(e)}
           placeholder={Placeholder}
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200"
+          className={`${IconLeft !== undefined && "pl-10"} ${IconRight !== undefined && "pr-10"}
+          block w-full rounded-lg border border-neutral-300 p-3 font-body text-label-3 text-neutral-900 placeholder:text-label-3 placeholder:text-neutral-500 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200`}
         />
-        {IconRight !== undefined && <IconRight size={24} />}
+        {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          {IconRight !== undefined && <IconRight size={20} />}
+        </div> */}
       </div>
       {typeof HelperText === "string" && HelperText.length > 2 && (
         <div className="flex items-center gap-x-1">

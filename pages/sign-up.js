@@ -20,10 +20,9 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
-
   const [accountType, setAccountType] = useState("");
 
-  console.log("The username value is:", userName);
+  // console.log("The username value is:", userName);
 
   const generalState = useSelector((state) => state.general);
   const dispatch = useDispatch();
@@ -83,6 +82,8 @@ export default function SignUp() {
     },
   };
 
+  const locationHandler = {};
+
   const components = [
     <EmailForm
       key={0}
@@ -133,7 +134,7 @@ export default function SignUp() {
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
           {step === stepHandler.nextStep
             ? components[stepHandler.nextStep]
-            : components[stepHandler.nextStep]}
+            : components[step]}
         </div>
       </div>
     </div>
