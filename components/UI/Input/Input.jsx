@@ -9,17 +9,12 @@ const returnStatusIcon = (status) => {
   switch (status) {
     case "success":
       return <RiCheckboxCircleFill size={16} />;
-      break;
     case "warning":
       return <RiErrorWarningFill size={16} />;
-      break;
     case "error":
       return <RiSpam2Fill size={16} />;
-      break;
-
     default:
       return <RiInformationFill size={16} />;
-      break;
   }
 };
 
@@ -39,6 +34,23 @@ const Text = (props) => {
     getValue,
   } = props;
 
+  const style = {
+    context: {
+      success: {
+        text: "text-success-600",
+        border: "border-2 border-success-600",
+        bg: "",
+      },
+      warning: {
+        text: "text-warning-600",
+        border: "border-2 border-warning-600",
+      },
+      error: {
+        border: "border-2 border-error-700",
+        text: "text-error-600",
+      },
+    },
+  };
   const inputHandler = (e) => {
     e.preventDefault;
     getValue(e.target.value);
@@ -65,17 +77,27 @@ const Text = (props) => {
           type={typeof Type !== "string" ? "text" : Type}
           onChange={(e) => inputHandler(e)}
           placeholder={Placeholder}
-          className={`${IconLeft !== undefined && "pl-10"} ${IconRight !== undefined && "pr-10"}
+          className={`${IconLeft !== undefined && "pl-10"} ${
+            IconRight !== undefined && "pr-10"
+          }
+          ${
+            typeof HelperText?.isActive === "boolean" &&
+            style["context"][HelperText.alert]["border"]
+          }
           block w-full rounded-lg border border-neutral-300 p-3 font-body text-label-3 text-neutral-900 placeholder:text-label-3 placeholder:text-neutral-500 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200`}
         />
         {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           {IconRight !== undefined && <IconRight size={20} />}
         </div> */}
       </div>
-      {typeof HelperText === "string" && HelperText.length > 2 && (
-        <div className="flex items-center gap-x-1">
-          {returnStatusIcon(State)}
-          <p className="font-body text-label-4">{HelperText}</p>
+      {typeof HelperText === "object" && HelperText?.text.length > 2 && (
+        <div
+          className={`${
+            style["context"][HelperText.alert]["text"]
+          } flex items-center gap-x-1`}
+        >
+          {returnStatusIcon(HelperText.alert)}
+          <p className="font-body text-label-4">{HelperText.text}</p>
         </div>
       )}
     </div>

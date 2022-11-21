@@ -13,17 +13,22 @@ export const EmailForm = ({
     submitAction();
   };
 
-  const helperTexts = {
-    default: "",
-    emailTaken:
-      "This email address is already taken, try another email address",
-    formatIncorrect:
-      "The email format is incorrect, use a correct email format",
+  const helpers = {
+    emailTaken: {
+      isActive: emailTaken,
+      alert: "warning",
+      text: "This email address is already taken, try another email address",
+    },
+    formatIncorrect: {
+      isActive: emailValid,
+      alert: "warning",
+      text: "The email format is incorrect, use a correct email format",
+    },
   };
 
-  let helperText =
-    (emailValid === false && helperTexts.formatIncorrect) ||
-    (emailTaken === true && helperTexts.emailTaken);
+  let helper =
+    (emailValid === false && helpers.formatIncorrect) ||
+    (emailTaken === true && helpers.emailTaken);
 
   return (
     <form
@@ -34,10 +39,10 @@ export const EmailForm = ({
         Type="text"
         value={value}
         required={true}
-        State="success"
+        State="warning"
         disabled={status}
         Label="Email Address"
-        HelperText={helperText}
+        HelperText={helper}
         Placeholder="email@gmail.com"
         getValue={(value) => getInputValue(value)}
       />
