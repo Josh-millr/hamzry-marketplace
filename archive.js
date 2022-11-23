@@ -51,9 +51,3 @@
 //   Password: Password,
   //   TextArea: TextArea,
 // };
-
-// export const getCountryList = (state, action) => {
-//   get country list from our async middleware, format it
-//   and store add it to state.
-//   state.countryList.push(action.payload);
-// };
