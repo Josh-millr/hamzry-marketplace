@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { Inter, DM_Sans } from "@next/font/google";
 import "@styles/globals.css";
 
-import { Footer, TopNav, Loader } from "@components/index";
+import { Layout } from "@components/index";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,16 +17,11 @@ const DmSans = DM_Sans({
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <>
-        <main className={`${inter.variable} ${DmSans.variable}`}>
-          <TopNav />
-          <Loader />
-          <div className="mx-auto w-full max-w-screen-desktop">
-            <Component {...pageProps} />
-          </div>
-        </main>
-        <Footer />
-      </>
+      <div className={`${inter.variable} ${DmSans.variable}`}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </div>
     </Provider>
   );
 }

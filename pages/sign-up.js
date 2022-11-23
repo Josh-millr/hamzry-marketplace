@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
-import { useSelector, useDispatch } from "react-redux";
-import { startLoading, stopLoading } from "@store/slice/index";
+import * as thunk from "@store/slice/generalSlice/generalThunk";
+import { actions } from "@store/slice/generalSlice/generalReducer";
 
 import { EmailForm, GeneralSignupForm } from "@components/index";
 
@@ -15,17 +16,33 @@ export default function SignUp() {
 
   // Step 2 state
   const [gender, setGender] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState({});
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [accountType, setAccountType] = useState("");
 
-  // console.log("The username value is:", userName);
-
-  const generalState = useSelector((state) => state.general);
   const dispatch = useDispatch();
+  const { loading, countryList, countryListStatus, isLocationSearchOpen } =
+    useSelector((state) => state.general);
+
+  const { userLocation } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (countryListStatus === "idle" && countryList.length === 0)
+      dispatch(thunk.getCountryList());
+
+    // Make the drawer visible to for users to see the location search & list
+    if (isLocationSearchOpen === true) dispatch(actions.openModal());
+
+    if (countryList.length > 1) setLocation(userLocation);
+  }, [
+    countryListStatus,
+    dispatch,
+    countryList,
+    isLocationSearchOpen,
+    userLocation,
+  ]);
 
   const stepHandler = {
     nextStep: 1,
@@ -42,7 +59,7 @@ export default function SignUp() {
 
       // Check if email is already present on server
       this.checkEmailRecord().then((isEmailTaken) => {
-        dispatch(stopLoading());
+        dispatch(actions.stopLoading());
         console.log("server responded with:", isEmailTaken);
         if (isEmailTaken === true) return setIsEmailTaken(isEmailTaken);
         if (isEmailTaken === false) stepHandler.goNextStep();
@@ -67,7 +84,7 @@ export default function SignUp() {
       return false;
     },
     async checkEmailRecord() {
-      dispatch(startLoading());
+      dispatch(actions.startLoading());
       try {
         console.log("Making check email sever request...");
         let response = await axios.post(
@@ -82,14 +99,20 @@ export default function SignUp() {
     },
   };
 
-  const locationHandler = {};
+  const locationHandler = {
+    processLocation() {
+      // Make the location search & list Visible
+      if (isLocationSearchOpen === false)
+        dispatch(actions.openLocationSearch());
+    },
+  };
 
   const components = [
     <EmailForm
       key={0}
       value={email}
       emailTaken={isEmailTaken}
-      status={generalState.loading}
+      status={loading}
       emailValid={isEmailFormatValid}
       submitAction={() => emailHandler.processEmail()}
       getInputValue={(value) => emailHandler.getEmailValue(value)}
@@ -111,6 +134,7 @@ export default function SignUp() {
       setUserName={userName}
       // Location
       setLocation={location}
+      getLocation={() => locationHandler.processLocation()}
       // Password
       getPassword={setPassword}
       setPassword={password}
@@ -118,7 +142,7 @@ export default function SignUp() {
   ];
 
   return (
-    <div className="w-full px-6 pt-16">
+    <div className="w-full pt-16">
       {/* Form Section */}
       <div className="grid w-full grid-cols-1 grid-rows-1 place-items-center gap-y-9 tablet:gap-y-16 desktop:gap-y-20">
         <div className="grid max-w-sm grid-cols-1 grid-rows-1 gap-y-1">
@@ -134,7 +158,7 @@ export default function SignUp() {
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
           {step === stepHandler.nextStep
             ? components[stepHandler.nextStep]
-            : components[step]}
+            : components[stepHandler.nextStep]}
         </div>
       </div>
     </div>
