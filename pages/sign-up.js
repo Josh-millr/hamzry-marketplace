@@ -22,6 +22,9 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [accountType, setAccountType] = useState("");
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  console.log(password);
 
   const dispatch = useDispatch();
   const { loading, countryList, countryListStatus, isLocationSearchOpen } =
@@ -136,8 +139,10 @@ export default function SignUp() {
       setLocation={location}
       getLocation={() => locationHandler.processLocation()}
       // Password
-      getPassword={setPassword}
       setPassword={password}
+      getPassword={setPassword}
+      isShowPassword={isShowPassword}
+      setIsShowPassword={(value) => setIsShowPassword(value)}
     />,
   ];
 

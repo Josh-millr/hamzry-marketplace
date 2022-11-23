@@ -20,6 +20,8 @@ export const GeneralSignupForm = ({
   // Password
   getPassword,
   setPassword,
+  isShowPassword,
+  setIsShowPassword,
 }) => {
   const toggleButton = (identity) => {
     switch (identity) {
@@ -33,7 +35,7 @@ export const GeneralSignupForm = ({
         break;
     }
   };
-  
+
   return (
     <form className="mb-28 grid w-full max-w-3xl grid-cols-1 grid-rows-1 gap-y-6 text-neutral-800 tablet:px-20">
       <div className="grid grid-cols-1 grid-rows-1 gap-y-2">
@@ -86,7 +88,9 @@ export const GeneralSignupForm = ({
           >
             Location
           </label>
-          <div className={`${Object.keys(setLocation).length > 1 && "relative"}`}>
+          <div
+            className={`${Object.keys(setLocation).length > 1 && "relative"}`}
+          >
             {Object.keys(setLocation).length > 1 && (
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 {
@@ -105,7 +109,9 @@ export const GeneralSignupForm = ({
               name="location"
               required={true}
               defaultValue={
-                Object.keys(setLocation).length !== 0 ? setLocation.name : "Choose location"
+                Object.keys(setLocation).length !== 0
+                  ? setLocation.name
+                  : "Choose location"
               } // Dexter, ad location value here
               onClick={() => getLocation()}
               className={`${
@@ -131,13 +137,12 @@ export const GeneralSignupForm = ({
           getValue={(value) => getUserName(value)}
         />
 
-        <Input.Text
-          Type="password"
+        <Input.Password
+          isShowPassword={isShowPassword}
+          setIsShowPassword={(value) => setIsShowPassword(value)}
           For="password"
-          required={true}
           Label="Password"
           value={setPassword}
-          Placeholder="Password"
           getValue={(value) => getPassword(value)}
         />
       </div>

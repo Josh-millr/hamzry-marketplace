@@ -3,6 +3,8 @@ import {
   RiCheckboxCircleFill,
   RiErrorWarningFill,
   RiInformationFill,
+  RiEyeLine,
+  RiEyeOffLine,
 } from "@components/index";
 
 const returnStatusIcon = (status) => {
@@ -104,6 +106,64 @@ const Text = (props) => {
   );
 };
 
+const Password = (props) => {
+  const {
+    Placeholder,
+    Label,
+    Type,
+    For,
+    HelperText,
+    IconRight,
+    IconLeft,
+    State,
+    disabled,
+    required,
+    value,
+    getValue,
+    isShowPassword,
+    setIsShowPassword,
+  } = props;
+
+  const toggleVisibility = (value) => {
+    console.log(value);
+    setIsShowPassword(value);
+  };
+
+  return (
+    <div className="grid w-full grid-cols-1 grid-rows-1 gap-y-2 tablet:max-w-[328px]">
+      <label
+        htmlFor={For}
+        className="w-full whitespace-nowrap font-body text-label-3 font-medium"
+      >
+        {Label}
+      </label>
+      <div className="flex h-12 items-center gap-x-2 rounded-lg border border-neutral-300 bg-white pr-3 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white">
+        <input
+          id={For}
+          name={For}
+          value={value}
+          required={true}
+          placeholder={For}
+          onChange={(e) => getValue(e.target.value)}
+          type={isShowPassword === true ? "text" : "password"}
+          className="h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 "
+        />
+        {isShowPassword === false && (
+          <div onClick={() => toggleVisibility(true)}>
+            <RiEyeLine size={20} />
+          </div>
+        )}
+        {isShowPassword === true && (
+          <div onClick={() => toggleVisibility(false)}>
+            <RiEyeOffLine size={20} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const Input = {
   Text: Text,
+  Password: Password,
 };

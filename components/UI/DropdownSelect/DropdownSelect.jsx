@@ -25,7 +25,7 @@ export const DropdownSelect = ({
       </label>
       <select
         id={For}
-        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-caption text-neutral-900 focus:border-primary-500 focus:ring-primary-500 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200"
+        className="block font-body text-label-3 w-full rounded-lg border h-12 border-gray-300 bg-white text-neutral-900 focus:border-primary-500 focus:ring-primary-500 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200"
       >
         <option defaultValue={Placeholder}>
           {typeof Placeholder === "string" && Placeholder.length > 2

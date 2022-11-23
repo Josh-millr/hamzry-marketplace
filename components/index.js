@@ -23,4 +23,6 @@ export {
   RiArrowRightLine,
   RiCalendarLine,
   RiCheckboxCircleLine,
+  RiEyeLine,
+  RiEyeOffLine
 } from "react-icons/ri";
