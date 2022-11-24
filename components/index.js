@@ -13,7 +13,7 @@ export { Loader } from "@components/UI/Loader/Loader";
 export { ToggleButton } from "@components/UI/ToggleButton/ToggleButton";
 export { DropdownSelect } from "@components/UI/DropdownSelect/DropdownSelect";
 export { Drawer } from "@components/UI/Drawer/Drawer";
-
+export { Backdrop } from "@components/UI/Backdrop/Backdrop";
 // Icons components
 export {
   RiCheckboxCircleFill,
@@ -24,5 +24,5 @@ export {
   RiCalendarLine,
   RiCheckboxCircleLine,
   RiEyeLine,
-  RiEyeOffLine
+  RiEyeOffLine,
 } from "react-icons/ri";

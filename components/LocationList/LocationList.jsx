@@ -14,7 +14,7 @@ export const LocationList = () => {
   };
 
   return (
-    <div className="grid w-full grid-cols-1 grid-rows-1 h-full gap-y-4">
+    <ul className="grid w-full grid-cols-1 grid-rows-1 h-full gap-y-4">
       {countryList?.map((country) => {
         return (
           <LocationListItem
@@ -26,6 +26,6 @@ export const LocationList = () => {
           />
         );
       })}
-    </div>
+    </ul>
   );
 };

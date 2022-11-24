@@ -7,7 +7,7 @@ export const LocationListItem = ({
   activeLocation,
 }) => {
   return (
-    <div
+    <li
       className="flex h-fit w-full justify-center gap-x-1 cursor-pointer"
       onClick={() => getLocation({name:name, image:flag})}
     >
@@ -17,6 +17,6 @@ export const LocationListItem = ({
       </div>
       {activeLocation.name !== name && <RiCheckboxCircleLine size={20} />}
       {activeLocation.name === name && <RiCheckboxCircleFill size={20} />}
-    </div>
+    </li>
   );
 };

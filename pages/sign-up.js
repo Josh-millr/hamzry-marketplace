@@ -25,7 +25,7 @@ export default function SignUp() {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const dispatch = useDispatch();
-  const { loading, countryList, countryListStatus, isLocationSearchOpen } =
+  const { loading, countryList, countryListStatus, isLocationSearchOpen, isModalOpen } =
     useSelector((state) => state.general);
 
   const { userLocation } = useSelector((state) => state.user);
@@ -34,10 +34,14 @@ export default function SignUp() {
       dispatch(thunk.getCountryList());
 
     // Make the drawer visible to for users to see the location search & list
-    if (isLocationSearchOpen === true) dispatch(actions.openModal());
+    if (isLocationSearchOpen === true && isModalOpen === false)
+      dispatch(actions.openModal());
+    if (isLocationSearchOpen === false && isModalOpen === true)
+      dispatch(actions.closeModal());
 
     if (countryList.length > 1) setLocation(userLocation);
   }, [
+    isModalOpen,
     countryListStatus,
     dispatch,
     countryList,
@@ -108,7 +112,7 @@ export default function SignUp() {
     },
   };
 
-  const fonmHandler = {
+  const formHandler = {
     submitForm() {
       if (
         gender.length > 1 &&
@@ -129,9 +133,9 @@ export default function SignUp() {
           password: password,
           username: userName,
         };
-        console.log("Client Sent:", newUserData)
+        console.log("Client Sent:", newUserData);
         this.sendToServer(newUserData).then((response) => {
-          console.log("Server Responded:", response)
+          console.log("Server Responded:", response);
           dispatch(actions.stopLoading());
         });
       }
@@ -140,10 +144,9 @@ export default function SignUp() {
       dispatch(actions.startLoading());
       try {
         console.log("Sending user data to server...");
-        let response = await axios.post(
-          "http://localhost:3000/users/signup",
-          { ...data }
-        );
+        let response = await axios.post("http://localhost:3000/users/signup", {
+          ...data,
+        });
         return response.data.status;
       } catch (e) {
         // Return a null value to use in notifying the use of network unavailability
@@ -186,7 +189,7 @@ export default function SignUp() {
       isShowPassword={isShowPassword}
       setIsShowPassword={(value) => setIsShowPassword(value)}
       // SubmitForm
-      submitAction={() => fonmHandler.submitForm()}
+      submitAction={() => formHandler.submitForm()}
     />,
   ];
 
