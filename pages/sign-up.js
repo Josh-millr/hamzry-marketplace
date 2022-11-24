@@ -207,7 +207,7 @@ export default function SignUp() {
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
           {step === stepHandler.nextStep
             ? components[stepHandler.nextStep]
-            : components[step]}
+            : components[stepHandler.nextStep]}
         </div>
       </div>
     </div>
