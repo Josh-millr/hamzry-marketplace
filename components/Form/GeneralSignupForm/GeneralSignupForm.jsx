@@ -22,7 +22,7 @@ export const GeneralSignupForm = ({
   setPassword,
   isShowPassword,
   setIsShowPassword,
-  submitAction
+  submitAction,
 }) => {
   const submitForm = (e) => {
     e.preventDefault();
@@ -122,7 +122,10 @@ export const GeneralSignupForm = ({
                   ? setLocation.name
                   : "Choose location"
               } // Dexter, ad location value here
-              onClick={() => getLocation()}
+              onClick={(e) => {
+                e.target.blur();
+                getLocation();
+              }}
               className={`${
                 Object.keys(setLocation).length > 1 && "pl-10"
               } block w-full  rounded-lg border border-neutral-300 bg-white p-3 font-body text-label-3 text-neutral-900 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0`}
