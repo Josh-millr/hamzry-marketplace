@@ -5,6 +5,8 @@ import {
   RiInformationFill,
   RiEyeLine,
   RiEyeOffLine,
+  RiSearchLine,
+  RiCloseLine,
 } from "@components/index";
 
 const returnStatusIcon = (status) => {
@@ -146,7 +148,7 @@ const Password = (props) => {
           placeholder={For}
           onChange={(e) => getValue(e.target.value)}
           type={isShowPassword === true ? "text" : "password"}
-          className="active:bg-white h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 "
+          className="h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 active:bg-white "
         />
         {isShowPassword === false && (
           <div onClick={() => toggleVisibility(true)}>
@@ -163,7 +165,40 @@ const Password = (props) => {
   );
 };
 
+const Search = (props) => {
+  const {
+    Placeholder,
+    For,
+    value,
+    getValue,
+  } = props;
+
+  const toggleVisibility = (value) => {
+    console.log(value);
+    setIsShowPassword(value);
+  };
+
+  return (
+    <div className="flex w-full gap-x-6 tablet:max-w-[328px] items-center">
+      <div className="flex h-12 w-full items-center gap-x-2 rounded-lg border border-neutral-300 bg-white pr-3 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white">
+        <input
+          id={For}
+          name={For}
+          value={value}
+          placeholder="Search"
+          onChange={(e) => getValue(e.target.value)}
+          type="text"
+          className="h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 active:bg-white "
+        />
+        <RiSearchLine size={20} />
+      </div>
+      <RiCloseLine size={24} />
+    </div>
+  );
+};
+
 export const Input = {
   Text: Text,
+  Search: Search,
   Password: Password,
 };

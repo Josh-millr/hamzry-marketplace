@@ -5,7 +5,7 @@ const SideDrawer = () => {
   const { isLocationSearchOpen } = useSelector((state) => state.general);
 
   return (
-    <div className="overflow-y-auto sticky top-[73px] hidden h-screen w-5/12  desktop:w-3/12 px-4 pt-8 tablet:block bg-white z-[2]">
+    <div className="overflow-y-auto sticky top-[73px] hidden h-screen w-5/12  desktop:w-3/12 px-4 tablet:block bg-white z-[2]">
       {isLocationSearchOpen && <LocationList />}
     </div>
   );

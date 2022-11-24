@@ -25,4 +25,7 @@ export {
   RiCheckboxCircleLine,
   RiEyeLine,
   RiEyeOffLine,
+  RiSearchLine,
+  RiCloseLine,
+  RiCloseCircleFill
 } from "react-icons/ri";
