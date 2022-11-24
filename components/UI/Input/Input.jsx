@@ -146,7 +146,7 @@ const Password = (props) => {
           placeholder={For}
           onChange={(e) => getValue(e.target.value)}
           type={isShowPassword === true ? "text" : "password"}
-          className="h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 "
+          className="active:bg-white h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 "
         />
         {isShowPassword === false && (
           <div onClick={() => toggleVisibility(true)}>

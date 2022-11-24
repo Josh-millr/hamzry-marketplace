@@ -24,8 +24,6 @@ export default function SignUp() {
   const [accountType, setAccountType] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  console.log(password);
-
   const dispatch = useDispatch();
   const { loading, countryList, countryListStatus, isLocationSearchOpen } =
     useSelector((state) => state.general);
@@ -110,6 +108,50 @@ export default function SignUp() {
     },
   };
 
+  const fonmHandler = {
+    submitForm() {
+      if (
+        gender.length > 1 &&
+        location.name.length > 1 &&
+        userName.length > 1 &&
+        password.length > 1 &&
+        lastName.length > 1 &&
+        firstName.length > 1 &&
+        accountType.length > 1
+      ) {
+        const newUserData = {
+          firstname: firstName,
+          lastname: lastName,
+          location: location.name,
+          accounttype: accountType,
+          gender: gender,
+          email: email,
+          password: password,
+          username: userName,
+        };
+        console.log("Client Sent:", newUserData)
+        this.sendToServer(newUserData).then((response) => {
+          console.log("Server Responded:", response)
+          dispatch(actions.stopLoading());
+        });
+      }
+    },
+    async sendToServer(data) {
+      dispatch(actions.startLoading());
+      try {
+        console.log("Sending user data to server...");
+        let response = await axios.post(
+          "http://localhost:3000/users/signup",
+          { ...data }
+        );
+        return response.data.status;
+      } catch (e) {
+        // Return a null value to use in notifying the use of network unavailability
+        return "No network";
+      }
+    },
+  };
+
   const components = [
     <EmailForm
       key={0}
@@ -143,6 +185,8 @@ export default function SignUp() {
       getPassword={setPassword}
       isShowPassword={isShowPassword}
       setIsShowPassword={(value) => setIsShowPassword(value)}
+      // SubmitForm
+      submitAction={() => fonmHandler.submitForm()}
     />,
   ];
 
@@ -163,7 +207,7 @@ export default function SignUp() {
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
           {step === stepHandler.nextStep
             ? components[stepHandler.nextStep]
-            : components[stepHandler.nextStep]}
+            : components[step]}
         </div>
       </div>
     </div>

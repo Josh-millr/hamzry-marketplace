@@ -22,7 +22,13 @@ export const GeneralSignupForm = ({
   setPassword,
   isShowPassword,
   setIsShowPassword,
+  submitAction
 }) => {
+  const submitForm = (e) => {
+    e.preventDefault();
+    submitAction();
+  };
+
   const toggleButton = (identity) => {
     switch (identity) {
       case "business":
@@ -37,7 +43,10 @@ export const GeneralSignupForm = ({
   };
 
   return (
-    <form className="mb-28 grid w-full max-w-3xl grid-cols-1 grid-rows-1 gap-y-6 text-neutral-800 tablet:px-20">
+    <form
+      onSubmit={submitForm}
+      className="mb-28 grid w-full max-w-3xl grid-cols-1 grid-rows-1 gap-y-6 text-neutral-800 tablet:px-20"
+    >
       <div className="grid grid-cols-1 grid-rows-1 gap-y-2">
         <p className="font-body text-label-3 font-medium">Account</p>
         <div className="flex gap-x-4">

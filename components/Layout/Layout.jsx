@@ -14,6 +14,7 @@ export const Layout = ({ children }) => {
         <div className="mx-auto flex w-full max-w-screen-desktop justify-center px-6 desktop:px-0">
           <main>{children}</main>
         </div>
+        {isModalOpen && <Drawer.Bottom />}
       </div>
       <Footer />
     </>
