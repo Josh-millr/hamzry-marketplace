@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 import * as thunk from "@store/slice/generalSlice/generalThunk";
-import { actions } from "@store/slice/generalSlice/generalReducer";
+import { actions as GeneralAction } from "@store/slice/generalSlice/generalReducer";
+import { actions as userAction } from "@store/slice/userSlice/userReducer";
 
 import { EmailForm, GeneralSignupForm } from "@components/index";
 
@@ -25,22 +26,34 @@ export default function SignUp() {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const dispatch = useDispatch();
-  const { loading, countryList, countryListStatus, isLocationSearchOpen, isModalOpen } =
-    useSelector((state) => state.general);
+  const {
+    loading,
+    countryList,
+    countryListStatus,
+    isLocationSearchOpen,
+    isModalOpen,
+  } = useSelector((state) => state.general);
 
-  const { userLocation } = useSelector((state) => state.user);
+  const { userLocation, userEmail } = useSelector((state) => state.user);
+
+  console.log(userEmail)
+  
   useEffect(() => {
+    if (isEmailTaken !== true) dispatch(userAction.setEmail(email));
+
     if (countryListStatus === "idle" && countryList.length === 0)
       dispatch(thunk.getCountryList());
 
     // Make the drawer visible to for users to see the location search & list
     if (isLocationSearchOpen === true && isModalOpen === false)
-      dispatch(actions.openModal());
+      dispatch(GeneralAction.openModal());
     if (isLocationSearchOpen === false && isModalOpen === true)
-      dispatch(actions.closeModal());
+      dispatch(GeneralAction.closeModal());
 
     if (countryList.length > 1) setLocation(userLocation);
   }, [
+    email,
+    isEmailTaken,
     isModalOpen,
     countryListStatus,
     dispatch,
@@ -61,10 +74,10 @@ export default function SignUp() {
       // Check if email is in a valid format
       const isEmailValid = this.checkEmailFomat();
       if (isEmailValid === false) return setIsEmailFormatValid(false);
-
+      
       // Check if email is already present on server
       this.checkEmailRecord().then((isEmailTaken) => {
-        dispatch(actions.stopLoading());
+        dispatch(GeneralAction.stopLoading());
         console.log("server responded with:", isEmailTaken);
         if (isEmailTaken === true) return setIsEmailTaken(isEmailTaken);
         if (isEmailTaken === false) stepHandler.goNextStep();
@@ -89,7 +102,7 @@ export default function SignUp() {
       return false;
     },
     async checkEmailRecord() {
-      dispatch(actions.startLoading());
+      dispatch(GeneralAction.startLoading());
       try {
         console.log("Making check email sever request...");
         let response = await axios.post(
@@ -108,7 +121,7 @@ export default function SignUp() {
     processLocation() {
       // Make the location search & list Visible
       if (isLocationSearchOpen === false)
-        dispatch(actions.openLocationSearch());
+        dispatch(GeneralAction.openLocationSearch());
     },
   };
 
@@ -136,12 +149,12 @@ export default function SignUp() {
         console.log("Client Sent:", newUserData);
         this.sendToServer(newUserData).then((response) => {
           console.log("Server Responded:", response);
-          dispatch(actions.stopLoading());
+          dispatch(GeneralAction.stopLoading());
         });
       }
     },
     async sendToServer(data) {
-      dispatch(actions.startLoading());
+      dispatch(GeneralAction.startLoading());
       try {
         console.log("Sending user data to server...");
         let response = await axios.post("http://localhost:3000/users/signup", {
@@ -210,7 +223,7 @@ export default function SignUp() {
         <div className="transitionWrapper mx-auto flex h-fit w-full place-content-center">
           {step === stepHandler.nextStep
             ? components[stepHandler.nextStep]
-            : components[stepHandler.nextStep]}
+            : components[step]}
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const Text = (props) => {
     IconRight,
     IconLeft,
     State,
-    disabled,
+    Disabled,
     required,
     value,
     getValue,
@@ -76,7 +76,7 @@ const Text = (props) => {
           id={For}
           name={For}
           value={value}
-          disabled={typeof disabled === "boolean" ? disabled : false}
+          disabled={typeof Disabled === "boolean" ? Disabled : false}
           required={required}
           type={typeof Type !== "string" ? "text" : Type}
           onChange={(e) => inputHandler(e)}

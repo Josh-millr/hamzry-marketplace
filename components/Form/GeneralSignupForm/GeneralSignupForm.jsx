@@ -1,4 +1,5 @@
 import { Input, Button, ToggleButton, DropdownSelect } from "@components/index";
+import Link from "next/link";
 
 export const GeneralSignupForm = ({
   setAccountType,
@@ -159,21 +160,17 @@ export const GeneralSignupForm = ({
         />
       </div>
       {/* Continue Button */}
-      <div className="grid grid-cols-1 grid-rows-1 gap-4 tablet:grid-cols-2">
-        <Button
-          Size="lg"
-          Appearance="secondary"
-          Type="button"
-          Label="Continue as a freelancer"
-          overideStyle="w-full"
-        />
-        <Button
-          Size="lg"
-          Appearance="primary"
-          Type="submit"
-          Label="Sign up"
-          overideStyle="w-full"
-        />
+      <div className="grid w-full grid-cols-1 grid-rows-1 ">
+        <Link href="/verify-account">
+          <Button
+            // Disabled={true}
+            Size="lg"
+            Appearance="primary"
+            Type="submit"
+            Label="Sign up"
+            overideStyle="w-full"
+          />
+        </Link>
       </div>
     </form>
   );

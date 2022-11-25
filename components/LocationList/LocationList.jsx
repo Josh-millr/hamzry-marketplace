@@ -42,6 +42,7 @@ export const LocationList = () => {
             let capitalized = value.charAt(0).toUpperCase() + value.slice(1);
             setSearchValue(capitalized);
           }}
+          closePanel={() => dispatch(loca)}
         />
 
         <div className="grid grid-cols-1 grid-rows-1 gap-y-2">

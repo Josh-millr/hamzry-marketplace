@@ -21,10 +21,10 @@ export const Button = (props) => {
   
   const iconSize = Size === "sm" ? 20 : 24
 
-  const execute = () => typeof Action === "function" && Action();
+  const execute = () => typeof Action === "function" && Action
 
   return (
-    <button type={Type} onClick={execute} disabled={Disabled}
+    <button type={Type} onClick={() => execute()} disabled={Disabled}
       className={
         `
         ${style.base}

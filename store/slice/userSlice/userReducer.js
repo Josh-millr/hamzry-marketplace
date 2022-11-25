@@ -3,6 +3,7 @@ import * as action from "@store/slice/userSlice/userAction";
 
 const initialState = {
   userLocation: {},
+  userEmail: "someoneemail@gmailcom"
 };
 
 export const userReducer = createSlice({
@@ -11,6 +12,7 @@ export const userReducer = createSlice({
   reducers: {
     // Handles storing of users location
     setCountry: action.setCountry,
+    setEmail: action.setEmail
   },
 });
 
