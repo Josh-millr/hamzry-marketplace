@@ -1,4 +1,4 @@
-export const Button = (props) => {
+export const Default = (props) => {
   const { Size, Appearance, Type, Label, Action, Disabled, IconRight, IconLeft, overideStyle } = props;
 
   const style = {
@@ -21,7 +21,7 @@ export const Button = (props) => {
   
   const iconSize = Size === "sm" ? 20 : 24
 
-  const execute = () => typeof Action === "function" && Action
+  const execute = () => typeof Action === "function" && Action()
 
   return (
     <button type={Type} onClick={() => execute()} disabled={Disabled}
@@ -37,3 +37,42 @@ export const Button = (props) => {
     </button>
   );
 };
+
+
+const Social = (props) => {
+  const { Size, Type, Label, Action, Disabled, IconRight, Icon, overideStyle } = props;
+
+  const style = {
+    base: `flex border border-neutral-400 hover:border-neutral-500 rounded-lg gap-x-2 font-semibold text-button font-body place-items-center justify-center
+    ${typeof overideStyle === "string" ? overideStyle : "w-full tablet:w-fit"}`,
+    size: {
+      sm: "",
+      md: "",
+      lg: "h-10 px-4",
+    },
+  };
+
+  const sizeKeys = Object.keys(style.size);
+  
+  const iconSize = Size === "sm" ? 20 : 24
+
+  const execute = () => typeof Action === "function" && Action()
+
+  return (
+    <button type={Type} onClick={execute} disabled={Disabled}
+      className={
+        `
+        ${style.base}
+        ${sizeKeys.includes(Size) && style["size"][Size]}
+        `}>
+      {Icon !== undefined && <Icon size={iconSize} />}
+      {Label}
+      {/* {IconRight !== undefined && <IconRight size={iconSize} />} */}
+    </button>
+  );
+}
+
+export const Button = {
+  Default: Default,
+  Social: Social
+}

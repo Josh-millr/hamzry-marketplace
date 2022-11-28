@@ -24,22 +24,27 @@ const returnStatusIcon = (status) => {
 
 const Text = (props) => {
   const {
-    Placeholder,
-    Label,
-    Type,
-    For,
-    HelperText,
-    IconRight,
-    IconLeft,
-    State,
-    Disabled,
+    label,
+    inputFor,
+    placeholder,
     required,
     value,
+    type,
+    disabled,
     getValue,
+    IconLeft,
+    errorMessage,
+    showErrorMessage,
+    hideErrorMessage,
+    // IconRight,
   } = props;
 
   const style = {
     context: {
+      info: {
+        text: "text-neutral-600",
+        border: "border-2 border-primary-600",
+      },
       success: {
         text: "text-success-600",
         border: "border-2 border-success-600",
@@ -55,6 +60,7 @@ const Text = (props) => {
       },
     },
   };
+
   const inputHandler = (e) => {
     e.preventDefault;
     getValue(e.target.value);
@@ -63,45 +69,43 @@ const Text = (props) => {
   return (
     <div className="grid w-full grid-cols-1 grid-rows-1 gap-y-2 tablet:max-w-[328px]">
       <label
-        htmlFor={For}
+        htmlFor={inputFor}
         className="w-full whitespace-nowrap font-body text-label-3 font-medium"
       >
-        {typeof Label === "string" && Label.length > 2 ? Label : "Label"}
+        {typeof label === "string" && label.length > 2 ? label : "label"}
       </label>
       <div className="relative flex w-full place-items-center gap-x-2">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           {IconLeft !== undefined && <IconLeft size={20} />}
         </div>
         <input
-          id={For}
-          name={For}
+          id={inputFor}
+          name={inputFor}
           value={value}
-          disabled={typeof Disabled === "boolean" ? Disabled : false}
           required={required}
-          type={typeof Type !== "string" ? "text" : Type}
+          placeholder={
+            typeof placeholder === "string" ? placeholder : "placeholder"
+          }
           onChange={(e) => inputHandler(e)}
-          placeholder={Placeholder}
-          className={`${IconLeft !== undefined && "pl-10"} ${
-            IconRight !== undefined && "pr-10"
-          }
-          ${
-            typeof HelperText?.isActive === "boolean" &&
-            style["context"][HelperText.alert]["border"]
-          }
-          block w-full rounded-lg border border-neutral-300 p-3 font-body text-label-3 text-neutral-900 placeholder:text-label-3 placeholder:text-neutral-500 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200`}
+          onClick={() => hideErrorMessage()}
+          type={typeof type !== "string" ? "text" : type}
+          disabled={typeof disabled === "boolean" ? disabled : false}
+          className={`${IconLeft !== undefined && "pl-10"}
+           ${
+             showErrorMessage === true &&
+             style["context"][errorMessage.alert]["border"]
+           }
+           block w-full rounded-lg border border-neutral-300 p-3 font-body text-label-3 text-neutral-900 placeholder:text-label-3 placeholder:text-neutral-500 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200`}
         />
-        {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          {IconRight !== undefined && <IconRight size={20} />}
-        </div> */}
       </div>
-      {typeof HelperText === "object" && HelperText?.text.length > 2 && (
+      {showErrorMessage === true && (
         <div
           className={`${
-            style["context"][HelperText.alert]["text"]
+            style["context"][errorMessage.alert]["text"]
           } flex items-center gap-x-1`}
         >
-          {returnStatusIcon(HelperText.alert)}
-          <p className="font-body text-label-4">{HelperText.text}</p>
+          {returnStatusIcon(errorMessage.alert)}
+          <p className="font-body text-label-4">{errorMessage.description}</p>
         </div>
       )}
     </div>
@@ -110,16 +114,11 @@ const Text = (props) => {
 
 const Password = (props) => {
   const {
-    Placeholder,
-    Label,
-    Type,
-    For,
-    HelperText,
-    IconRight,
-    IconLeft,
+    placeholder,
+    label,
+    inputFor,
     State,
     disabled,
-    required,
     value,
     getValue,
     isShowPassword,
@@ -134,18 +133,19 @@ const Password = (props) => {
   return (
     <div className="grid w-full grid-cols-1 grid-rows-1 gap-y-2 tablet:max-w-[328px]">
       <label
-        htmlFor={For}
+        htmlFor={inputFor}
         className="w-full whitespace-nowrap font-body text-label-3 font-medium"
       >
-        {Label}
+        {label}
       </label>
       <div className="flex h-12 items-center gap-x-2 rounded-lg border border-neutral-300 bg-white pr-3 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white">
         <input
-          id={For}
-          name={For}
+          id={inputFor}
+          name={inputFor}
           value={value}
           required={true}
-          placeholder={For}
+          disabled={typeof disabled === "boolean" ? disabled : false}
+          placeholder={placeholder}
           onChange={(e) => getValue(e.target.value)}
           type={isShowPassword === true ? "text" : "password"}
           className="h-full w-full rounded-lg border-0 bg-transparent font-body text-label-3 text-neutral-900 focus:outline-0 focus:ring-0 active:bg-white "
@@ -166,12 +166,7 @@ const Password = (props) => {
 };
 
 const Search = (props) => {
-  const {
-    Placeholder,
-    For,
-    value,
-    getValue,
-  } = props;
+  const { placeholder, For, value, getValue } = props;
 
   const toggleVisibility = (value) => {
     console.log(value);
@@ -179,7 +174,7 @@ const Search = (props) => {
   };
 
   return (
-    <div className="flex w-full gap-x-6 tablet:max-w-[328px] items-center">
+    <div className="flex w-full items-center gap-x-6 tablet:max-w-[328px]">
       <div className="flex h-12 w-full items-center gap-x-2 rounded-lg border border-neutral-300 bg-white pr-3 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white">
         <input
           id={For}
@@ -202,3 +197,24 @@ export const Input = {
   Search: Search,
   Password: Password,
 };
+
+{
+  /* <input
+id={For}
+name={For}
+value={value}
+required={required}
+placeholder={placeholder}
+onChange={(e) => inputHandler(e)}
+type={typeof type !== "string" ? "text" : type}
+disabled={typeof disabled === "boolean" ? disabled : false}
+className={`${IconLeft !== undefined && "pl-10"} ${
+  IconRight !== undefined && "pr-10"
+}
+${
+  typeof HelperText?.check === "boolean" &&
+  style["context"][HelperText?.alert]["border"]
+}
+block w-full rounded-lg border border-neutral-300 p-3 font-body text-label-3 text-neutral-900 placeholder:text-label-3 placeholder:text-neutral-500 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0 disabled:border-neutral-200 disabled:bg-white disabled:text-neutral-200`}
+/> */
+}

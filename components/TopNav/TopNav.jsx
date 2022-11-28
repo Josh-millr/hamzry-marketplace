@@ -10,7 +10,7 @@ export const TopNav = () => (
           <p className="whitespace-nowrap text-label-3">
             Already have an account?
           </p>
-          <Button
+          <Button.Default
             Size="lg"
             Appearance="primary"
             Type="button"

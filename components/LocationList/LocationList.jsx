@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { LocationListItem } from "@components/index";
-import { actions } from "@store/slice/userSlice/userReducer";
+import { userActions } from "@store/slice/userSlice/userReducer";
 import { Input } from "@components/index";
 
 export const LocationList = () => {
@@ -28,7 +28,7 @@ export const LocationList = () => {
 
   const setLocation = (country) => {
     // dispatch the location with the payload country to be stored in the state.
-    dispatch(actions.setCountry(country));
+    dispatch(userActions.setCountry(country));
   };
   console.log(userLocation);
   return (

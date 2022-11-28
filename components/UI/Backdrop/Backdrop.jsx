@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
-import { actions } from "@store/slice/generalSlice/generalReducer";
+import { generalActions } from "@store/slice/generalSlice/generalReducer";
 
 export const Backdrop = () => {
   const dispatch = useDispatch();
   const { isLocationSearchOpen } = useSelector((state) => state.general);
 
   const closeModals = () => {
-    if (isLocationSearchOpen) dispatch(actions.closeLocationSearch());
+    if (isLocationSearchOpen) dispatch(generalActions.closeLocationSearch());
   };
   return (
     <div

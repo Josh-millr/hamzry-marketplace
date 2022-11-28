@@ -1,5 +1,4 @@
 import { Input, Button, ToggleButton, DropdownSelect } from "@components/index";
-import Link from "next/link";
 
 export const GeneralSignupForm = ({
   setAccountType,
@@ -24,6 +23,11 @@ export const GeneralSignupForm = ({
   isShowPassword,
   setIsShowPassword,
   submitAction,
+  // Error Handler
+  isDisabled,
+  errorMessage,
+  showErrorMessage,
+  hideEmailErrorMessage,
 }) => {
   const submitForm = (e) => {
     e.preventDefault();
@@ -42,6 +46,7 @@ export const GeneralSignupForm = ({
         break;
     }
   };
+
 
   return (
     <form
@@ -66,22 +71,29 @@ export const GeneralSignupForm = ({
       {/* Form Inputs */}
       <div className="grid w-full grid-cols-2 grid-rows-1 gap-x-4 gap-y-2">
         <Input.Text
-          Type="text"
+          type="text"
           value={setFirstName}
           required={true}
-          Label="Firstname"
-          For="firstname"
-          Placeholder="Firstname"
+          label="Firstname"
+          disabled={isDisabled}
+          inputFor="firstname"
+          placeholder="Firstname"
           getValue={(value) => getFirstName(value)}
+          errorMessage={errorMessage}
+          showErrorMessage={showErrorMessage}
+          hideErrorMessage={() => hideEmailErrorMessage()}
         />
         <Input.Text
-          Type="text"
+          type="text"
           value={setLastName}
           required={true}
-          Label="Lastname"
-          For="lastname"
-          Placeholder="Lastname"
+          label="Lastname"
+          inputFor="lastname"
+          placeholder="Lastname"
           getValue={(value) => getLastName(value)}
+          errorMessage={errorMessage}
+          showErrorMessage={showErrorMessage}
+          hideErrorMessage={() => hideEmailErrorMessage()}
         />
         <DropdownSelect
           Label="Gender"
@@ -118,11 +130,7 @@ export const GeneralSignupForm = ({
               id="location"
               name="location"
               required={true}
-              defaultValue={
-                Object.keys(setLocation).length !== 0
-                  ? setLocation.name
-                  : "Choose location"
-              } // Dexter, ad location value here
+              value={typeof setLocation.name !== "undefined" ? setLocation.name : "Choose location"}
               onClick={(e) => {
                 e.target.blur();
                 getLocation();
@@ -132,45 +140,41 @@ export const GeneralSignupForm = ({
               } block w-full  rounded-lg border border-neutral-300 bg-white p-3 font-body text-label-3 text-neutral-900 hover:border-primary-50 hover:bg-primary-max-00 focus:border-2 focus:border-primary-500 focus:bg-white focus:outline-0 focus:ring-0`}
             />
           </div>
-          {/* {typeof HelperText === "string" && HelperText.length > 2 && (
-            <div className="flex items-center gap-x-1">
-              {returnStatusIcon(State)}
-              <p className="font-body text-label-4">{HelperText}</p>
-            </div>
-          )} */}
         </div>
 
         <Input.Text
-          Type="text"
-          For="username"
+          type="text"
+          inputFor="username"
           required={true}
-          Label="Username"
+          label="Username"
           value={setUserName}
-          Placeholder="Username"
+          placeholder="Username"
           getValue={(value) => getUserName(value)}
+          errorMessage={errorMessage}
+          showErrorMessage={showErrorMessage}
+          hideErrorMessage={() => hideEmailErrorMessage()}
         />
 
         <Input.Password
           isShowPassword={isShowPassword}
           setIsShowPassword={(value) => setIsShowPassword(value)}
-          For="password"
-          Label="Password"
+          placeholder="Password"
+          inputFor="password"
+          label="Password"
           value={setPassword}
           getValue={(value) => getPassword(value)}
         />
       </div>
       {/* Continue Button */}
       <div className="grid w-full grid-cols-1 grid-rows-1 ">
-        <Link href="/verify-account">
-          <Button
-            // Disabled={true}
-            Size="lg"
-            Appearance="primary"
-            Type="submit"
-            Label="Sign up"
-            overideStyle="w-full"
-          />
-        </Link>
+        {/* Submit button to process sign up */}
+        <Button.Default
+          Size="lg"
+          Type="submit"
+          Label="Sign In"
+          Appearance="primary"
+          overideStyle="w-full"
+        />
       </div>
     </form>
   );

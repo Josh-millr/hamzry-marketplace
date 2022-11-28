@@ -1,31 +1,20 @@
-import React, { useState, useEffect } from "react";
+// React & Custom Hooks
+import React, { useState, useEffect, useMemo } from "react";
+import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import { useForm } from "@hooks/useForm";
 
 import * as thunk from "@store/slice/generalSlice/generalThunk";
-import { actions as GeneralAction } from "@store/slice/generalSlice/generalReducer";
-import { actions as userAction } from "@store/slice/userSlice/userReducer";
+import { generalActions } from "@store/slice/generalSlice/generalReducer";
+import { userActions } from "@store/slice/userSlice/userReducer";
 
 import { EmailForm, GeneralSignupForm } from "@components/index";
 
 export default function SignUp() {
   // Step 1 state
   const [step, setStep] = useState(0);
-  const [email, setEmail] = useState("");
-  const [isEmailTaken, setIsEmailTaken] = useState(null);
-  const [isEmailFormatValid, setIsEmailFormatValid] = useState(null);
-
-  // Step 2 state
-  const [gender, setGender] = useState("");
-  const [location, setLocation] = useState({});
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [accountType, setAccountType] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const dispatch = useDispatch();
   const {
     loading,
     countryList,
@@ -33,176 +22,110 @@ export default function SignUp() {
     isLocationSearchOpen,
     isModalOpen,
   } = useSelector((state) => state.general);
+  const dispatch = useDispatch();
+  const router = useRouter()
+  const formHandler = useForm();
 
-  const { userLocation, userEmail } = useSelector((state) => state.user);
+  const { userLocation } = useSelector((state) => state.user);
 
-  console.log(userEmail)
-  
+  const stepHandler = useMemo(() => {
+    return {
+      nextStep: 1,
+      goNextStep() {
+        setStep(this.nextStep);
+      },
+    };
+  }, []);
+
+  if(formHandler.emailTakenConditionToProceed === true){
+    formHandler.setEmailTakenConditionToProceed(false);
+  }
+
   useEffect(() => {
-    if (isEmailTaken !== true) dispatch(userAction.setEmail(email));
 
+    switch(formHandler.signupStatus){
+      case "Registration Successful!":
+        dispatch(userActions.setEmail(formHandler.email))
+        router.push("/verify-account")
+        break;
+      default:
+        console.log("no signup status")
+        break;
+    }
+
+    if (formHandler.isEmailTaken === false) stepHandler.goNextStep();
+
+    if (countryList.length > 1) formHandler.setLocation(userLocation);
     if (countryListStatus === "idle" && countryList.length === 0)
       dispatch(thunk.getCountryList());
 
     // Make the drawer visible to for users to see the location search & list
     if (isLocationSearchOpen === true && isModalOpen === false)
-      dispatch(GeneralAction.openModal());
+      dispatch(generalActions.openModal());
     if (isLocationSearchOpen === false && isModalOpen === true)
-      dispatch(GeneralAction.closeModal());
+      dispatch(generalActions.closeModal());
 
-    if (countryList.length > 1) setLocation(userLocation);
   }, [
-    email,
-    isEmailTaken,
+    stepHandler,
+    formHandler,
     isModalOpen,
     countryListStatus,
     dispatch,
     countryList,
     isLocationSearchOpen,
     userLocation,
+    router,
   ]);
-
-  const stepHandler = {
-    nextStep: 1,
-    goNextStep() {
-      setStep(this.nextStep);
-    },
-  };
-
-  const emailHandler = {
-    processEmail() {
-      // Check if email is in a valid format
-      const isEmailValid = this.checkEmailFomat();
-      if (isEmailValid === false) return setIsEmailFormatValid(false);
-      
-      // Check if email is already present on server
-      this.checkEmailRecord().then((isEmailTaken) => {
-        dispatch(GeneralAction.stopLoading());
-        console.log("server responded with:", isEmailTaken);
-        if (isEmailTaken === true) return setIsEmailTaken(isEmailTaken);
-        if (isEmailTaken === false) stepHandler.goNextStep();
-        // Do something if network is unavailable
-      });
-    },
-    getEmailValue(value) {
-      // Reset states to default
-      if (isEmailFormatValid === false) setIsEmailFormatValid(null);
-      if (isEmailTaken === true) setIsEmailTaken(null);
-
-      setEmail(value);
-    },
-    checkEmailFomat() {
-      // email regEx pattern
-      const emailRegExPattern = new RegExp(
-        "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
-      );
-
-      if (emailRegExPattern.test(email)) return true;
-
-      return false;
-    },
-    async checkEmailRecord() {
-      dispatch(GeneralAction.startLoading());
-      try {
-        console.log("Making check email sever request...");
-        let response = await axios.post(
-          "http://localhost:3000/users/checkemail",
-          { email: email }
-        );
-        return response.data.status;
-      } catch (e) {
-        // Return a null value to use in notifying the use of network unavailability
-        return "No network";
-      }
-    },
-  };
 
   const locationHandler = {
     processLocation() {
-      // Make the location search & list Visible
       if (isLocationSearchOpen === false)
-        dispatch(GeneralAction.openLocationSearch());
-    },
-  };
-
-  const formHandler = {
-    submitForm() {
-      if (
-        gender.length > 1 &&
-        location.name.length > 1 &&
-        userName.length > 1 &&
-        password.length > 1 &&
-        lastName.length > 1 &&
-        firstName.length > 1 &&
-        accountType.length > 1
-      ) {
-        const newUserData = {
-          firstname: firstName,
-          lastname: lastName,
-          location: location.name,
-          accounttype: accountType,
-          gender: gender,
-          email: email,
-          password: password,
-          username: userName,
-        };
-        console.log("Client Sent:", newUserData);
-        this.sendToServer(newUserData).then((response) => {
-          console.log("Server Responded:", response);
-          dispatch(GeneralAction.stopLoading());
-        });
-      }
-    },
-    async sendToServer(data) {
-      dispatch(GeneralAction.startLoading());
-      try {
-        console.log("Sending user data to server...");
-        let response = await axios.post("http://localhost:3000/users/signup", {
-          ...data,
-        });
-        return response.data.status;
-      } catch (e) {
-        // Return a null value to use in notifying the use of network unavailability
-        return "No network";
-      }
+        dispatch(generalActions.openLocationSearch());
     },
   };
 
   const components = [
     <EmailForm
       key={0}
-      value={email}
-      emailTaken={isEmailTaken}
-      status={loading}
-      emailValid={isEmailFormatValid}
-      submitAction={() => emailHandler.processEmail()}
-      getInputValue={(value) => emailHandler.getEmailValue(value)}
+      emailValue={formHandler.email}
+      isDisabled={loading}
+      errorMessage={formHandler.emailError}
+      showErrorMessage={formHandler.showEmailError}
+      submitEmail={() => formHandler.processEmail()}
+      hideEmailErrorMessage={() => formHandler.clearEmailErrorMessage()}
+      getEmailValue={(value) => formHandler.getEmailValue(value)}
+      signinWithGoogle={() => formHandler.signinWithGoogle()}
     />,
     <GeneralSignupForm
       key={1}
-      setAccountType={(value) => setAccountType(value)}
-      accountType={accountType}
+      setAccountType={(value) => formHandler.setAccountType(value)}
+      accountType={formHandler.accountType}
       // Firstname
-      getFirstName={setFirstName}
-      setFirstName={firstName}
+      getFirstName={formHandler.setFirstName}
+      setFirstName={formHandler.firstName}
       // Lastname
-      getLastName={setLastName}
-      setLastName={lastName}
+      getLastName={formHandler.setLastName}
+      setLastName={formHandler.lastName}
       // Gender
-      getGender={setGender}
+      getGender={formHandler.setGender}
       // Username
-      getUserName={setUserName}
-      setUserName={userName}
+      getUserName={formHandler.setUserName}
+      setUserName={formHandler.userName}
       // Location
-      setLocation={location}
+      setLocation={formHandler.location}
       getLocation={() => locationHandler.processLocation()}
       // Password
-      setPassword={password}
-      getPassword={setPassword}
+      setPassword={formHandler.password}
+      getPassword={formHandler.setPassword}
       isShowPassword={isShowPassword}
       setIsShowPassword={(value) => setIsShowPassword(value)}
+      // Error hander
+      hideEmailErrorMessage={() => formHandler.clearEmailErrorMessage()}
+      isDisabled={loading}
+      errorMessage={formHandler.emailError}
+      showErrorMessage={formHandler.showEmailError}
       // SubmitForm
-      submitAction={() => formHandler.submitForm()}
+      submitAction={() => formHandler.processSignup()}
     />,
   ];
 

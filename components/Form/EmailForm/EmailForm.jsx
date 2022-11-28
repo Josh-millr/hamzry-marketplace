@@ -1,55 +1,43 @@
-import { Input, Button, RiArrowRightLine } from "@components/index";
+import axiosConfig from "@utils/axiosConfig";
+import { Input, Button, RiArrowRightLine, FcGoogle } from "@components/index";
 
 export const EmailForm = ({
-  value,
-  status,
-  emailTaken,
-  emailValid,
-  submitAction,
-  getInputValue,
+  emailValue,
+  getEmailValue,
+  isDisabled,
+  errorMessage,
+  showErrorMessage,
+  hideEmailErrorMessage,
+  submitEmail,
+  signinWithGoogle,
 }) => {
   const submitForm = (e) => {
     e.preventDefault();
-    submitAction();
+    submitEmail();
   };
-
-  const helpers = {
-    emailTaken: {
-      isActive: emailTaken,
-      alert: "warning",
-      text: "This email address is already taken, try another email address",
-    },
-    formatIncorrect: {
-      isActive: emailValid,
-      alert: "warning",
-      text: "The email format is incorrect, use a correct email format",
-    },
-  };
-
-  let helper =
-    (emailValid === false && helpers.formatIncorrect) ||
-    (emailTaken === true && helpers.emailTaken);
 
   return (
     <form
-      className="grid w-full max-w-sm grid-cols-1 grid-rows-1 justify-items-center gap-y-4 "
+      className="grid w-full max-w-sm grid-cols-1 grid-rows-1 justify-items-center gap-y-4"
       onSubmit={submitForm}
     >
       <Input.Text
-        Type="text"
-        value={value}
-        required={true}
-        State="warning"
-        disabled={status}
-        Label="Email Address"
-        HelperText={helper}
-        Placeholder="email@gmail.com"
-        getValue={(value) => getInputValue(value)}
+        label="Email Address"
+        inputFor="email"
+        placeholder="email@gmail.com"
+        Required={true}
+        value={emailValue}
+        disabled={isDisabled}
+        type="text"
+        getValue={(value) => getEmailValue(value)}
+        errorMessage={errorMessage}
+        showErrorMessage={showErrorMessage}
+        hideErrorMessage={() => hideEmailErrorMessage()}
       />
 
       {/* Button used to continue to the next step */}
       <div className="w-full tablet:px-6">
-        <Button
+        <Button.Default
           Size="lg"
           Type="submit"
           Label="Continue"
@@ -68,14 +56,14 @@ export const EmailForm = ({
         </div>
       </div>
 
-      {/* Sign up with Google button */}
       <div className="w-full tablet:px-6">
-        <Button
+        <Button.Social
           Size="lg"
-          Type="submit"
+          Type="button"
+          Icon={FcGoogle}
           Label="Continue with Google"
-          Appearance="secondary"
           overideStyle="w-full"
+          Action={() => signinWithGoogle()}
         />
       </div>
     </form>
